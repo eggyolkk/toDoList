@@ -1,33 +1,43 @@
 import React, { Component } from "react";
+import { HiOutlineCheckCircle } from 'react-icons/hi'
 
 class ListTasks extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      trytext: ''
-    }
   }
 
-  
-
-    render() {
+  render() {
     const {tasks} = this.props;
-    const {trytext} = this.state.trytext
 
     return(
       <div>
         <ul>
           {tasks.map((task) => {
-            return <li>{task} <button id="completed" onClick="handleComplete">Completed</button></li>
+            return <li key={task.id}>{task.text}
+
+              {/*<HiOutlineCheckCircle size={30} className="checkButton" />*/}
+
+              <button
+              id="completed"
+              onClick={this.props.completeHandler}
+              value={task.id}
+              >Complete</button>
+
+              <button
+              id="edit"
+              onClick={this.props.editHandler}
+              value={task.id}
+              >Edit
+              </button>
+
+            </li>
           })}
         </ul>
-        <h1>{trytext}</h1>
       </div>
     );
   }
 }
-
 
 
 export default ListTasks;
