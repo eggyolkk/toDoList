@@ -2,6 +2,45 @@ $quicksand: 'Quicksand', sans-serif;
 $darkGrey: #858585;
 $lightGreen: #79c769;
 $darkGreen: #069c62;
+$borderColor: #e0e0e0;
+
+@mixin taskBoxes() {
+    background-color: white;
+    height: 50px;
+    width: 900px;
+    text-align: center;
+    border-bottom: 1px solid $borderColor;
+    padding-bottom: 10px;
+}
+
+@mixin textButtons() {
+    float: right;
+    margin-right: 40px; 
+    background-color: transparent;
+    border: none;   
+    font-family: $quicksand;
+    font-weight: 600;
+    color: $darkGrey;
+    cursor: pointer;
+}
+
+@mixin normalTab() {
+    background-color: #e3e3e3;
+    font-weight: 500;
+    font-size: 17px;
+    font-family: $quicksand;
+    color: $darkGrey;
+    width: 50%;
+}
+
+@mixin activeTab() {
+    background-color: #cfcfcf;
+    font-weight: 500;
+    font-size: 17px;
+    font-family: $quicksand;
+    color: $darkGrey;
+    width: 50%;
+}
 
 h2 {
 	font-weight: 400;
@@ -57,12 +96,7 @@ h3 {
 }
 
 #taskListDiv {
-    background-color: white;
-    height: 50px;
-    width: 900px;
-    text-align: center;
-    border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 10px;
+    @include taskBoxes();
 }
 
 #taskContainer {
@@ -81,16 +115,11 @@ h3 {
     text-align: right;
     float: right;
     margin-top: -10px;
+    cursor: pointer;
 }
 
 #edit {
-	float: right;
-    margin-right: 40px;	
-    background-color: transparent;
-    border: none;	
-    font-family: $quicksand;
-    font-weight: 600;
-    color: $darkGrey;
+	@include textButtons();
 }
 
 #completed:hover {
@@ -100,4 +129,48 @@ h3 {
 
 #edit:hover {
 	color: $lightGreen; 
+}
+
+#remainingTabActive {
+    border: none;
+    border-right: 1px solid $borderColor;
+    @include taskBoxes();
+    @include activeTab();
+}
+
+#doneTab {
+    border: none;
+    @include taskBoxes();
+    @include normalTab();
+}
+
+#remainingTab {
+    border: none;
+    border-right: 1px solid $borderColor;
+    @include taskBoxes();
+    @include normalTab();
+}
+
+#doneTabActive {
+    border: none;
+    @include taskBoxes();
+    @include activeTab();
+}
+
+#tabsContainer {
+    display: inline;
+    width: 900px;   
+}
+
+#doneh3 {
+    text-decoration: line-through;
+    text-decoration-thickness: 1px;
+}
+
+#remove {
+    @include textButtons();
+}
+
+#remove:hover {
+    color: red; 
 }

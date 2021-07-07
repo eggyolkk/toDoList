@@ -7,6 +7,20 @@ class ListTasks extends Component {
     return(
       <div id="taskContainer">
 
+        <div id="tabsContainer">
+          <button
+            id="remainingTabActive"
+            onClick={this.props.remainingTabsToggle}
+            >remaining
+          </button>
+
+          <button
+            id="doneTab"
+            onClick={this.props.doneTabsToggle}
+            >completed
+          </button>
+        </div>
+
           {tasks.map((task, key) => {
             return <div id="taskListDiv">
                 <h3 key={task.id}>{task.text}
@@ -15,7 +29,7 @@ class ListTasks extends Component {
                 id="edit"
                 onClick={this.props.editHandler}
                 value={task.id}
-                >Edit
+                >edit
                 </button>
 
                 <button

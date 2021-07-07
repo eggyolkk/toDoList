@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import './app.css';
 import ListTasks from './ListTasks';
+import CompletedTasks from './CompletedTasks';
 
 class AddTaskBar extends Component {
   constructor(props) {
@@ -9,7 +10,8 @@ class AddTaskBar extends Component {
     this.state = {
       task: '',
       tasksList: [],
-      doneList: []
+      doneList: [],
+      tab: true
     }
 
     this.handleComplete = this.handleComplete.bind(this)
@@ -39,7 +41,7 @@ class AddTaskBar extends Component {
 
     for (var i in this.state.tasksList){
       if (this.state.tasksList[i].id === parseInt(e.target.value)){
-        doneListCopy.push({text: this.state.tasksList[i].text})
+        doneListCopy.push({text: this.state.tasksList[i].text, id: this.state.tasksList[i].id})
       }
     }
 
@@ -67,13 +69,37 @@ class AddTaskBar extends Component {
     })
   }
 
+  remainingTabsToggle = e => {
+    e.preventDefault()
+
+    this.setState({
+      tab: true
+    })
+  }
+
+  doneTabsToggle = e => {
+    e.preventDefault()
+
+    this.setState({
+      tab: false
+    })
+  }
+
+  removeHandler = e => {
+    e.preventDefault()
+
+    const doneListCopy = [...this.state.doneList]
+    const updatedDoneList = doneListCopy.filter(task => task.id !== parseInt(e.target.value))
+
+    this.setState({
+      doneList: updatedDoneList
+    })
+  }
 
   render() {
-    const { task, tasksList, doneList } = this.state
-    const maptask = tasksList.map((task)=><h2>{task.text}{task.id}</h2>)
-    const mapdone = doneList.map((task)=><h2>{task.text}</h2>)
+    const { task, tasksList, doneList, tab } = this.state
 
-    return(
+    return (
       <div id="taskbar">
         <form>
           <input
@@ -85,9 +111,8 @@ class AddTaskBar extends Component {
           />
 
         <p id="add" onClick={this.handleSubmit}>+ add to do list</p>
-
-        
-        <ListTasks tasks={tasksList} completeHandler={this.handleComplete} editHandler={this.handleEdit}/>
+        <p>{tab && <ListTasks tasks={tasksList} completeHandler={this.handleComplete} editHandler={this.handleEdit} remainingTabsToggle={this.remainingTabsToggle} doneTabsToggle={this.doneTabsToggle}/>}</p>
+        <p>{!tab && <CompletedTasks tasks={doneList} removeHandler={this.removeHandler} remainingTabsToggle={this.remainingTabsToggle} doneTabsToggle={this.doneTabsToggle}/>}</p>
 
       </form>
       </div>
