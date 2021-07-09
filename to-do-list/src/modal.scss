@@ -1,0 +1,74 @@
+$quicksand: 'Quicksand', sans-serif;
+$darkGrey: #858585;
+$lightGreen: #79c769;
+
+@mixin modalButtons() {
+	color: #858585;
+    background-color: transparent;
+    border: none;
+    font-family: "Quicksand",sans-serif;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-right: 30px;
+    cursor: pointer;
+ }
+
+.modal {
+	width: 500px;
+	background: white;
+	border: 1px solid #ccc;
+	transition: 2s ease-out;
+	box-shadow: -2rem 2rem 2rem rgba(black, 0.2);
+	filter: blur(0);
+	transform: scale(1);
+	opacity: 1;
+	visibility: visible;
+	z-index: 1;
+	margin-bottom: -288px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#modalh1{
+	font-size: 20px;
+	font-size: 50px;
+    margin-top: 20px;
+}
+
+#inputEditTask {
+    font-family: "Quicksand",sans-serif;
+    width: 400px;
+    height: 50px;
+    text-align: center;
+    border: 1px solid #d6d6d6;
+    color: #858585;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+#modalButtonsDiv{
+	width: 100%;
+}
+
+#closeModalBtn {
+	@include modalButtons();
+    float: right;
+    font-size: 20px;
+}
+
+#doneModalBtn {
+	@include modalButtons();
+    font-size: 30px;
+    margin-left:50px;
+    text-align: center;
+}
+
+#closeModalBtn:hover {
+	color: red;
+}
+
+#doneModalBtn:hover {
+	color: $lightGreen;
+}

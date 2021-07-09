@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Modal from "./Modal"
 
 class ListTasks extends Component {
   render() {
@@ -7,6 +8,7 @@ class ListTasks extends Component {
     return(
       <div id="taskContainer">
 
+        <Modal editHandler={this.props.editHandler} editChangeHandler={this.props.editChangeHandler} taskEditInput={this.props.taskEditInput} closeModal={this.props.closeHandler} showModal={this.props.showModal} editTaskText={this.props.editTaskText} editTaskId={this.props.editTaskId}/>
         <div id="tabsContainer">
           <button
             id="remainingTabActive"
@@ -27,7 +29,7 @@ class ListTasks extends Component {
 
                 <button
                 id="edit"
-                onClick={this.props.editHandler}
+                onClick={this.props.openModalHandler}
                 value={task.id}
                 >edit
                 </button>

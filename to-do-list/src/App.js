@@ -3,6 +3,7 @@ import './app.css';
 import ListTasks from './ListTasks';
 import CompletedTasks from './CompletedTasks';
 
+
 class AddTaskBar extends Component {
   constructor(props) {
     super(props)
@@ -11,7 +12,11 @@ class AddTaskBar extends Component {
       task: '',
       tasksList: [],
       doneList: [],
-      tab: true
+      tab: true,
+      showModal: false,
+      taskEditInput: '',
+      editTaskText: '',
+      editTaskId: '',
     }
 
     this.handleComplete = this.handleComplete.bind(this)
@@ -20,6 +25,12 @@ class AddTaskBar extends Component {
   handleTaskChange = e => {
     this.setState({
       task: e.target.value
+    })
+  }
+
+  handleEditChange = e => {
+    this.setState({
+      taskEditInput: e.target.value
     })
   }
 
@@ -51,22 +62,49 @@ class AddTaskBar extends Component {
     })
   }
 
-  handleEdit = e => {
+  handleOpenModal = e => {
     e.preventDefault()
 
-    const newList = []
-
+    let currentTask = ''
     for (var i in this.state.tasksList){
-      if (this.state.tasksList[i].id !== parseInt(e.target.value)) {
-        newList.push({text: this.state.tasksList[i].text, id: this.state.tasksList[i].id})
-      } else {
-        newList.push({text: 'changed', id: this.state.tasksList[i].id})
+      if (this.state.tasksList[i].id === parseInt(e.target.value)) {
+        currentTask = this.state.tasksList[i].text
       }
     }
 
     this.setState({
-      tasksList: newList
+      showModal: true,
+      editTaskText: currentTask,
+      editTaskId: parseInt(e.target.value)
     })
+  }
+
+  handleCloseModal = e => {
+    e.preventDefault()
+
+    this.setState({
+      showModal: !this.state.showModal
+    })
+  }
+
+  handleEdit = e => {
+    e.preventDefault()
+
+    const newList = []
+    for (var i in this.state.tasksList){
+      if (this.state.tasksList[i].id !== parseInt(e.target.value)) {
+        newList.push({text: this.state.tasksList[i].text, id: this.state.tasksList[i].id})
+      } else {
+        newList.push({text: this.state.taskEditInput, id: this.state.tasksList[i].id})
+      }
+    }
+
+    this.setState({
+      tasksList: newList,
+      showModal: !this.state.showModal,
+      taskEditInput: ''
+    })
+
   }
 
   remainingTabsToggle = e => {
@@ -97,7 +135,7 @@ class AddTaskBar extends Component {
   }
 
   render() {
-    const { task, tasksList, doneList, tab } = this.state
+    const { task, tasksList, doneList, tab, showModal, editTaskText, editTaskId, taskEditInput } = this.state
 
     return (
       <div id="taskbar">
@@ -111,7 +149,7 @@ class AddTaskBar extends Component {
           />
 
         <p id="add" onClick={this.handleSubmit}>+ add to do list</p>
-        <p>{tab && <ListTasks tasks={tasksList} completeHandler={this.handleComplete} editHandler={this.handleEdit} remainingTabsToggle={this.remainingTabsToggle} doneTabsToggle={this.doneTabsToggle}/>}</p>
+        <p>{tab && <ListTasks showModal={showModal} editTaskText={editTaskText} editTaskId={editTaskId} taskEditInput={taskEditInput} editChangeHandler={this.handleEditChange} tasks={tasksList} closeHandler={this.handleCloseModal} completeHandler={this.handleComplete} openModalHandler={this.handleOpenModal} editHandler={this.handleEdit} remainingTabsToggle={this.remainingTabsToggle} doneTabsToggle={this.doneTabsToggle}/>}</p>
         <p>{!tab && <CompletedTasks tasks={doneList} removeHandler={this.removeHandler} remainingTabsToggle={this.remainingTabsToggle} doneTabsToggle={this.doneTabsToggle}/>}</p>
 
       </form>
